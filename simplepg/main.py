@@ -266,12 +266,15 @@ def main(env_id, batch_size, discount, learning_rate, n_itrs, render, use_baseli
             """
             baselines = np.zeros(len(all_returns))
             for t in range(len(all_returns)):
-                baselines[t] = np.mean(all_returns[t])
+                if len(all_returns[t]) == 0:
+                    baselines[t] = 0
+                else:
+                    baselines[t] = np.mean(all_returns[t])
             
             return baselines
 
         if use_baseline:
-            #test_once(compute_baselines)
+            test_once(compute_baselines)
             baselines = compute_baselines(all_returns)
         else:
             baselines = np.zeros(timestep_limit)
