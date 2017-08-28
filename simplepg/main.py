@@ -235,7 +235,6 @@ def main(env_id, batch_size, discount, learning_rate, n_itrs, render, use_baseli
                     R_t = 0.
                     pg_theta = np.zeros_like(theta)
                     R_t = R_tplus1*discount + r_t
-                    #import pdb; pdb.set_trace()
                     pg_theta = (R_t-b_t) * get_grad_logp_action(theta, s_t, a_t)
                     return R_t, pg_theta
 
@@ -267,11 +266,12 @@ def main(env_id, batch_size, discount, learning_rate, n_itrs, render, use_baseli
             """
             baselines = np.zeros(len(all_returns))
             for t in range(len(all_returns)):
-                "*** YOUR CODE HERE ***"
+                baselines[t] = np.mean(all_returns[t])
+            
             return baselines
 
         if use_baseline:
-            test_once(compute_baselines)
+            #test_once(compute_baselines)
             baselines = compute_baselines(all_returns)
         else:
             baselines = np.zeros(timestep_limit)
