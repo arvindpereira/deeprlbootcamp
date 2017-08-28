@@ -32,7 +32,6 @@ def point_get_grad_logp_action(theta, ob, action):
     :return: A matrix of size |A| * (|S|+1)
     """
     grad = np.zeros_like(theta)
-    #import pdb; pdb.set_trace()
     ob_1 = include_bias(ob)
     grad = np.outer(action-np.dot(theta,ob_1),ob_1)
     # (a - theta'.s).outer(S)
@@ -235,7 +234,9 @@ def main(env_id, batch_size, discount, learning_rate, n_itrs, render, use_baseli
                     """
                     R_t = 0.
                     pg_theta = np.zeros_like(theta)
-                    "*** YOUR CODE HERE ***"
+                    R_t = R_tplus1*discount + r_t
+                    #import pdb; pdb.set_trace()
+                    pg_theta = (R_t-b_t) * get_grad_logp_action(theta, s_t, a_t)
                     return R_t, pg_theta
 
                 # Test the implementation, but only once
